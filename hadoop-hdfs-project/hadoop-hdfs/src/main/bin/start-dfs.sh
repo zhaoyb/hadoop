@@ -31,6 +31,8 @@
 # defined.  e.g., HDFS_DATANODE_USER=root HDFS_DATANODE_SECURE_USER=hdfs
 #
 
+## hdfs启动脚本
+
 ## @description  usage info
 ## @audience     private
 ## @stability    evolving
@@ -40,9 +42,12 @@ function hadoop_usage
   echo "Usage: start-dfs.sh [-upgrade|-rollback] [-clusterId]"
 }
 
+# BASH_SOURCE 是一个shell从内存变量， 表示当前脚本路径
+
 this="${BASH_SOURCE-$0}"
 bin=$(cd -P -- "$(dirname -- "${this}")" >/dev/null && pwd -P)
 
+# 找到HADOOP_DEFAULT_LIBEXEC_DIR
 # let's locate libexec...
 if [[ -n "${HADOOP_HOME}" ]]; then
   HADOOP_DEFAULT_LIBEXEC_DIR="${HADOOP_HOME}/libexec"
@@ -50,10 +55,12 @@ else
   HADOOP_DEFAULT_LIBEXEC_DIR="${bin}/../libexec"
 fi
 
+# :- 类似于三元运算符
 HADOOP_LIBEXEC_DIR="${HADOOP_LIBEXEC_DIR:-$HADOOP_DEFAULT_LIBEXEC_DIR}"
 # shellcheck disable=SC2034
 HADOOP_NEW_CONFIG=true
 if [[ -f "${HADOOP_LIBEXEC_DIR}/hdfs-config.sh" ]]; then
+# 运行命令
   . "${HADOOP_LIBEXEC_DIR}/hdfs-config.sh"
 else
   echo "ERROR: Cannot execute ${HADOOP_LIBEXEC_DIR}/hdfs-config.sh." 2>&1
@@ -65,10 +72,10 @@ if [[ $# -ge 1 ]]; then
   startOpt="$1"
   shift
   case "$startOpt" in
-    -upgrade)
+    -upgrade)   # 升级
       nameStartOpt="$startOpt"
     ;;
-    -rollback)
+    -rollback)  # 回滚
       dataStartOpt="$startOpt"
     ;;
     *)

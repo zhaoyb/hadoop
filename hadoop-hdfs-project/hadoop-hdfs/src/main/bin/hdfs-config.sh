@@ -78,6 +78,7 @@ if [[ -z "${HADOOP_LIBEXEC_DIR}" ]]; then
 fi
 
 # shellcheck source=./hadoop-common-project/hadoop-common/src/main/bin/hadoop-config.sh
+# 启动 hadoop-config.sh
 
 if [[ -n "${HADOOP_COMMON_HOME}" ]] &&
    [[ -e "${HADOOP_COMMON_HOME}/libexec/hadoop-config.sh" ]]; then

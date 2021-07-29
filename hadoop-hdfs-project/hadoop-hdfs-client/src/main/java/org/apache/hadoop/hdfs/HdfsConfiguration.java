@@ -30,10 +30,13 @@ import static org.apache.hadoop.hdfs.client.HdfsClientConfigKeys.DeprecatedKeys;
  */
 @InterfaceAudience.Private
 public class HdfsConfiguration extends Configuration {
+
   static {
+    // 添加已经废弃key
     addDeprecatedKeys();
 
     // adds the default resources
+    // 添加默认的资源文件
     Configuration.addDefaultResource("hdfs-default.xml");
     Configuration.addDefaultResource("hdfs-site.xml");
   }
@@ -62,6 +65,7 @@ public class HdfsConfiguration extends Configuration {
    * loading this class first, thereby skipping the key deprecation.
    */
   public static void init() {
+    // 这个方法是空的， 但是主要还是要调用上面的 静态代码块
   }
 
   private static void addDeprecatedKeys() {
